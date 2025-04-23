@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiệp Cưới - Tâm & Giao</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Great+Vibes&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #003b5c;
+            --secondary-color: #f5f7f9;
+            --accent-color: #c8102e;
+            --text-color: #333333;
+            --dark-color: #00263a;
+            --light-color: #ffffff;
+            --border-width: 2px;
+            --border-radius: 5px;
+            --gold-color: #d4b08c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
+            background-color: var(--secondary-color);
+            line-height: 1.6;
+        }
+        
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            background-color: var(--light-color);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            page-break-after: always;
+        }
+        
+        .card-cover {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: var(--light-color);
+            background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('assets/HDS_5942.JPG');
+            background-size: cover;
+            background-position: center;
+            padding: 2cm;
+            position: relative;
+        }
+        
+        .card-cover::before {
+            content: '';
+            position: absolute;
+            top: 1cm;
+            left: 1cm;
+            right: 1cm;
+            bottom: 1cm;
+            border: 1px solid var(--primary-color);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .card-inner {
+            height: 100%;
+            padding: 2cm;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-inner::before {
+            content: '';
+            position: absolute;
+            top: 1cm;
+            left: 1cm;
+            right: 1cm;
+            bottom: 1cm;
+            border: 1px solid var(--gold-color);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .ornament {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+        
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--accent-color);
+            margin-bottom: 3rem;
+        }
+        
+        .names {
+            position: relative;
+            padding: 3rem 0;
+            margin: 2rem 0;
+        }
+        
+        .names::before, .names::after {
+            content: '';
+            position: absolute;
+            left: 25%;
+            width: 50%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold-color), transparent);
+        }
+        
+        .names::before {
+            top: 0;
+        }
+        
+        .names::after {
+            bottom: 0;
+        }
+        
+        .bride, .groom {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            display: inline-block;
+            position: relative;
+        }
+        
+        .and {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            margin: 0 1rem;
+            color: var(--gold-color);
+            vertical-align: middle;
+        }
+        
+        .details-section {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .detail-card {
+            flex: 1;
+            max-width: 30%;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .detail-icon {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .families {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .family-card {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .family-card::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            right: 0;
+            height: 80%;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--gold-color), transparent);
+        }
+        
+        .family-card:last-child::after {
+            display: none;
+        }
+        
+        .footer {
+            margin-top: 3rem;
+            font-style: italic;
+        }
+        
+        .footer h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-top: 0.5rem;
+            font-weight: normal;
+        }
+        
+        .flower-corner {
+            position: absolute;
+            width: 10cm;
+            height: 10cm;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .top-left {
+            top: 0;
+            left: 0;
+            transform: rotate(0deg);
+        }
+        
+        .bottom-right {
+            bottom: 0;
+            right: 0;
+            transform: rotate(180deg);
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background: none;
+            }
+            
+            .page {
+                box-shadow: none;
+                margin: 0;
+                width: 210mm;
+                height: 297mm;
+            }
+            
+            .print-notice {
+                display: none;
+            }
+        }
+        
+        .print-notice {
+            text-align: center;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: #efefef;
+            border-radius: var(--border-radius);
+        }
+        
+        .print-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="print-notice">
+        <p>Nhấn nút dưới đây để in thiệp cưới hoặc nhấn Ctrl+P (Windows) / Cmd+P (Mac)</p>
+        <button class="print-btn" onclick="window.print()">In Thiệp Cưới</button>
+    </div>
+    
+    <!-- Front Cover -->
+    <div class="page">
+        <div class="card-cover">
+            <div class="flower-corner top-left">❦</div>
+            <div class="flower-corner bottom-right">❦</div>
+            
+            <h1>Tâm & Giao</h1>
+            <h2>Thiệp Mời Cưới</h2>
+            <p class="date">17 Tháng 7, 2025</p>
+        </div>
+    </div>
+    
+    <!-- Inside Pages -->
+    <div class="page">
+        <div class="card-inner">
+            <div class="flower-corner top-left">❦</div>
+            <div class="flower-corner bottom-right">❦</div>
+            
+            <div class="card-header">
+                <div class="ornament">❦</div>
+                <h2>Trân Trọng Kính Mời</h2>
+                <p>Chúng tôi trân trọng kính mời quý vị đến tham dự lễ thành hôn của chúng tôi, cùng chúng tôi chia sẻ niềm hạnh phúc trong giây phút thiêng liêng này.</p>
+            </div>
+            
+            <div class="names">
+                <span class="bride">Tâm</span>
+                <span class="and">&</span>
+                <span class="groom">Giao</span>
+            </div>
+            
+            <div class="families">
+                <div class="family-card">
+                    <h3>Nhà Gái</h3>
+                    <p><strong>Cha:</strong> Ông Nguyễn Văn A</p>
+                    <p><strong>Mẹ:</strong> Bà Nguyễn Thị B</p>
+                    <p><strong>Địa Chỉ:</strong><br>
+                    Ấp Trường Thuận, Xã Trường Long<br>
+                    Thị trấn Phong Điền, Cần Thơ</p>
+                </div>
+                
+                <div class="family-card">
+                    <h3>Nhà Trai</h3>
+                    <p><strong>Cha:</strong> Ông Trần Văn C</p>
+                    <p><strong>Mẹ:</strong> Bà Trần Thị D</p>
+                    <p><strong>Địa Chỉ:</strong><br>
+                    Tổ 16, Ấp Đông Phú I, Xã Vĩnh Thành<br>
+                    Huyện Châu Thành, An Giang</p>
+                </div>
+            </div>
+            
+            <div class="details-section">
+                <div class="detail-card">
+                    <div class="detail-icon">📅</div>
+                    <div class="detail-title">Thời Gian</div>
+                    <p>Thứ Sáu, ngày 17 tháng 7 năm 2025</p>
+                    <p>16:00 - 22:00</p>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-icon">📍</div>
+                    <div class="detail-title">Địa Điểm</div>
+                    <p>Grand Pavilion</p>
+                    <p>123 Garden Avenue</p>
+                    <p>TP. Hồ Chí Minh</p>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-icon">🍽️</div>
+                    <div class="detail-title">Tiệc Cưới</div>
+                    <p>Tiệc & Khiêu Vũ</p>
+                    <p>Ngay sau lễ thành hôn</p>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>Trân trọng và biết ơn,</p>
+                <h3>Tâm & Giao</h3>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Optional: Add print functionality for the button
+        document.querySelector('.print-btn').addEventListener('click', function() {
+            window.print();
+        });
+    </script>
+</body>
+</html> 
