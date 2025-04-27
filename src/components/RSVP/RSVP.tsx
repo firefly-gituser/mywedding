@@ -205,7 +205,7 @@ const RSVP: React.FC = () => {
         <h2 ref={titleRef}>Xác Nhận Tham Dự</h2>
         <p ref={textRef}>
           Chúng tôi rất mong được đón tiếp quý vị trong ngày trọng đại. 
-          Vui lòng xác nhận tham dự trước ngày 17 tháng 6 năm 2025.
+          Vui lòng xác nhận tham dự trước ngày 01 tháng 7 năm 2025.
         </p>
         
         <div ref={formRef}>

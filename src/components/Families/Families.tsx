@@ -16,6 +16,43 @@ const Container = styled.div`
   text-align: center;
 `;
 
+const Ornament = styled.div`
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  animation: spin 4s infinite linear;
+  display: inline-block;
+  width: 60px;
+  margin-right: 1rem;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid var(--primary-color);
+  position: relative;
+  background: radial-gradient(circle, rgba(212, 176, 140, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+  
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(to right, var(--primary-color), transparent);
+  }
+
+  &::before {
+    right: 100%;
+    margin-right: 10px;
+  }
+
+  &::after {
+    left: 100%;
+    margin-left: 10px;
+    transform: rotate(180deg);
+  }
+`;
+
 const FamilyCards = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -169,42 +206,39 @@ const Families: React.FC = () => {
   return (
     <FamiliesSection>
       <Container>
+        <Ornament>❦</Ornament>
         <h2 ref={headingRef}>Gia Đình Chúng Tôi</h2>
         <FamilyCards>
           <BrideFamily ref={brideRef}>
-            <h3>Nhà Gái</h3>
+            <h3>Nhà Trai</h3>
             <FamilyContent>
               <FamilyMember>
                 <h4>Cha</h4>
-                <p>Ông Nguyễn Văn A</p>
+                <p>Ông Thạch Ngọc Truyền</p>
               </FamilyMember>
               <FamilyMember>
                 <h4>Mẹ</h4>
-                <p>Bà Nguyễn Thị B</p>
+                <p>Bà Bùi Thị Kim Phương</p>
               </FamilyMember>
               <FamilyAddress>
                 <h4>Địa Chỉ</h4>
-                <p>Ấp Trường Thuận, Xã Trường Long</p>
-                <p>Thị trấn Phong Điền, Cần Thơ</p>
+                <p>Ấp Đông Phú I, Xã Vĩnh Thành</p>
+                <p>Huyện Châu Thành, An Giang</p>
               </FamilyAddress>
             </FamilyContent>
           </BrideFamily>
           
           <GroomFamily ref={groomRef}>
-            <h3>Nhà Trai</h3>
+            <h3>Nhà Gái</h3>
             <FamilyContent>
               <FamilyMember>
-                <h4>Cha</h4>
-                <p>Ông Trần Văn C</p>
-              </FamilyMember>
-              <FamilyMember>
                 <h4>Mẹ</h4>
-                <p>Bà Trần Thị D</p>
+                <p>Bà Lê Thị Mỹ Linh</p>
               </FamilyMember>
               <FamilyAddress>
                 <h4>Địa Chỉ</h4>
-                <p>Tổ 16, Ấp Đông Phú I, Xã Vĩnh Thành</p>
-                <p>Huyện Châu Thành, An Giang</p>
+                <p>Ấp Trường Thuận, Xã Trường Long</p>
+                <p>Thị trấn Phong Điền, Cần Thơ</p>
               </FamilyAddress>
             </FamilyContent>
           </GroomFamily>

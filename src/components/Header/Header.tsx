@@ -84,6 +84,15 @@ const EventDate = styled.p`
   animation: fadeInUp 1.8s ease;
 `;
 
+// Style cho tên cô dâu chú rể
+const CoupleNames = styled.span`
+  // Điều chỉnh khoảng cách cho ký tự & 
+  .ampersand {
+    margin: 0 1.5rem; // Thêm khoảng cách hai bên của dấu &
+    letter-spacing: 0; // Đặt lại letter-spacing cho &
+  }
+`;
+
 const CountdownContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -178,8 +187,7 @@ const Header: React.FC = () => {
     seconds: 0
   });
 
-  // Wedding date (July 17, 2025)
-  const weddingDateStr = 'July 17, 2025 00:00:00';
+  const weddingDateStr = 'July 13, 2025 00:00:00'
   const weddingDate = window.Date.parse(weddingDateStr);
   
   useEffect(() => {
@@ -210,9 +218,9 @@ const Header: React.FC = () => {
       $mobileBgImage={currentTheme.mobileBackgroundImage}
     >
       <HeroContainer ref={heroRef}>
-        <h1>Tâm & Giao</h1>
+        <h1><CoupleNames>Tâm<span className="ampersand">&</span>Giao</CoupleNames></h1>
         <h2>Chúng Tôi Sắp Cưới</h2>
-        <EventDate>17 Tháng 7, 2025</EventDate>
+        <EventDate>13 Tháng 7, 2025</EventDate>
         
         <CountdownContainer>
           <CountdownItem>

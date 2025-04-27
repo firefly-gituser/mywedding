@@ -196,26 +196,26 @@ const Timeline: React.FC = () => {
   return (
     <TimelineSection>
       <Container>
-        <h2 ref={headerRef}>Lịch Trình Ngày Cưới</h2>
+        <h2 ref={headerRef}>Lịch Trình Chuyến Đi</h2>
         <TimelineContainer>
           <TimelineEvent 
             time="6:30 Sáng" 
-            event="Chuẩn bị tại công ty" 
+            event="Chuẩn bị tại LAB 6 công ty TMA" 
             delay={250}
           />
           <TimelineEvent 
             time="7:00 Sáng" 
-            event="Bắt đầu lên đường" 
+            event="Bắt đầu chuyến đi." 
             delay={500}
           />
           <TimelineEvent 
             time="11:00 Sáng" 
-            event="Đến nhà gái và bắt đầu tiệc" 
+            event="Đến Nhà Gái và bắt đầu nhập tiệc." 
             delay={750}
           />
           <TimelineEvent 
             time="13:00 Chiều" 
-            event="Kết thúc và trở về" 
+            event="Kết thúc và trở về công ty." 
             delay={1000}
           />
         </TimelineContainer>

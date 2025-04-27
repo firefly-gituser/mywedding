@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faMapMarkerAlt, faGlassCheers } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faMapMarkerAlt, faCar } from '@fortawesome/free-solid-svg-icons';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 
 const DetailsSection = styled.section`
@@ -20,7 +20,7 @@ const Container = styled.div`
 
 const DetailCard = styled.div`
   background-color: var(--light-color);
-  padding: 2.5rem;
+  padding: 1.5rem;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   flex: 1 1 300px;
@@ -99,8 +99,9 @@ const Details: React.FC = () => {
             <FontAwesomeIcon icon={faCalendarAlt} />
           </IconWrapper>
           <h3>Thời Gian</h3>
-          <p>Thứ Sáu, ngày 17 tháng 7 năm 2025</p>
-          <p>16:00 - 22:00</p>
+          <p>11:00 - 13:00</p>
+          <p>Chủ Nhật, ngày 13 tháng 7, 2025</p>
+          <p>Nhằm ngày 9 tháng 6, Ất Tỵ</p>
         </DetailCard>
         
         <DetailCard ref={locationRef}>
@@ -108,18 +109,18 @@ const Details: React.FC = () => {
             <FontAwesomeIcon icon={faMapMarkerAlt} />
           </IconWrapper>
           <h3>Địa Điểm</h3>
-          <p>Grand Pavilion</p>
-          <p>123 Garden Avenue</p>
-          <p>TP. Hồ Chí Minh</p>
+          <p>Tư Gia Nhà Gái</p>
+          <p>Ấp Trường Thuận, Xã Trường Long</p>
+          <p>Thị trấn Phong Điền, Cần Thơ</p>
         </DetailCard>
         
         <DetailCard ref={receptionRef}>
           <IconWrapper>
-            <FontAwesomeIcon icon={faGlassCheers} />
+            <FontAwesomeIcon icon={faCar} />
           </IconWrapper>
-          <h3>Tiệc Cưới</h3>
-          <p>Tiệc & Khiêu Vũ</p>
-          <p>Ngay sau lễ thành hôn</p>
+          <h3>Phương tiện di chuyển</h3>
+          <p>Xe 7 hoặc 16 chỗ</p>
+          <p>Tuỳ thuộc số lượng thành viên tham gia</p>
         </DetailCard>
       </Container>
     </DetailsSection>
