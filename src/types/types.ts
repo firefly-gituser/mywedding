@@ -6,6 +6,7 @@ export interface Theme {
   dark: string;
   light: string;
   backgroundImage: string;
+  mobileBackgroundImage: string;
   layoutClass: string;
 }
 

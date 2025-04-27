@@ -92,19 +92,16 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     if (galleryData) {
       // Once we have the gallery data, create themes with images
       const updatedThemes = themeTemplates.map((template, index) => {
-        let imageToUse;
-
-        // Use images from gallery if available, otherwise fallback to pattern
-        if (galleryData.gallary && galleryData.gallary.length > 0) {
-          const galleryIndex = index % galleryData.gallary.length;
-          imageToUse = getImageUrl(galleryData.gallary[galleryIndex]);
-        } else {
-          imageToUse = getImageUrl(galleryData.pattern);
-        }
-
+        // Sử dụng hero cho background chính
+        const heroImage = galleryData.hero ? getImageUrl(galleryData.hero) : placeholderImage;
+        
+        // Sử dụng mobileHero cho mobile background
+        const mobileHeroImage = galleryData.mobileHero ? getImageUrl(galleryData.mobileHero) : heroImage;
+        
         return {
           ...template,
-          backgroundImage: imageToUse
+          backgroundImage: heroImage,
+          mobileBackgroundImage: mobileHeroImage
         };
       });
       
@@ -113,7 +110,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       // Create temporary themes with placeholder images
       const tempThemes = themeTemplates.map(template => ({
         ...template,
-        backgroundImage: placeholderImage
+        backgroundImage: placeholderImage,
+        mobileBackgroundImage: placeholderImage
       }));
       
       setThemes(tempThemes);
@@ -128,7 +126,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const currentTheme = useMemo(() => {
     return themes[themeIndex] || {
       ...themeTemplates[themeIndex],
-      backgroundImage: placeholderImage
+      backgroundImage: placeholderImage,
+      mobileBackgroundImage: placeholderImage
     };
   }, [themeIndex, themes]);
 

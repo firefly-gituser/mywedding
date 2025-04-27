@@ -4,19 +4,27 @@ import { useTheme } from '../../contexts/ThemeContext';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 
 // Styled components for the Header
-const HeaderContainer = styled.header<{ $bgImage: string }>`
+const HeaderContainer = styled.header<{ $bgImage: string; $mobileBgImage: string }>`
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+  background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.8)),
     url(${props => props.$bgImage});
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   color: var(--dark-color);
   transition: background-image var(--transition-slow);
+
+  @media (max-width: 768px) {
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.8)),
+      url(${props => props.$mobileBgImage});
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+  }
 `;
 
 const HeroContainer = styled.div`
@@ -197,7 +205,10 @@ const Header: React.FC = () => {
   }, [weddingDate]); // Removed timeLeft from dependencies
 
   return (
-    <HeaderContainer $bgImage={currentTheme.backgroundImage}>
+    <HeaderContainer 
+      $bgImage={currentTheme.backgroundImage} 
+      $mobileBgImage={currentTheme.mobileBackgroundImage}
+    >
       <HeroContainer ref={heroRef}>
         <h1>Tâm & Giao</h1>
         <h2>Chúng Tôi Sắp Cưới</h2>

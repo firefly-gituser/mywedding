@@ -20,9 +20,9 @@ const FloatingHearts = styled.div`
     position: fixed;
     color: var(--primary-color);
     opacity: 0;
-    z-index: -1;
+    z-index: 1111;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-    animation: floatHeart 6s ease-in forwards;
+    animation: floatHeart 3s ease-in forwards;
   }
   
   @keyframes floatHeart {
