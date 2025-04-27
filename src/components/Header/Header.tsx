@@ -4,14 +4,14 @@ import { useTheme } from '../../contexts/ThemeContext';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 
 // Styled components for the Header
-const HeaderContainer = styled.header<{ bgImage: string }>`
+const HeaderContainer = styled.header<{ $bgImage: string }>`
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
-    url(${props => props.bgImage});
+    url(${props => props.$bgImage});
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -197,7 +197,7 @@ const Header: React.FC = () => {
   }, [weddingDate]); // Removed timeLeft from dependencies
 
   return (
-    <HeaderContainer bgImage={currentTheme.backgroundImage}>
+    <HeaderContainer $bgImage={currentTheme.backgroundImage}>
       <HeroContainer ref={heroRef}>
         <h1>Tâm & Giao</h1>
         <h2>Chúng Tôi Sắp Cưới</h2>

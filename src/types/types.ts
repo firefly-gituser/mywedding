@@ -42,3 +42,12 @@ export interface RSVPFormData {
   guests: number;
   message: string;
 }
+
+export interface GalleryResponse {
+  urlPattern: string;
+  variableName: string;
+  mobileHero: string;
+  hero: string;
+  pattern: string;
+  gallary: string[];
+}

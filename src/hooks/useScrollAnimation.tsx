@@ -1,4 +1,4 @@
-import { useEffect, useRef, MutableRefObject } from 'react';
+import { useEffect, useRef, useCallback, MutableRefObject } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 interface ScrollAnimationOptions {
@@ -62,10 +62,11 @@ export const useScrollAnimation = (
     }
   }, [inView, delay, distance, origin, easing]);
 
-  const setRefs = (el: any) => {
+  // Memoize setRefs function to prevent it from causing infinite renders
+  const setRefs = useCallback((el: any) => {
     elementRef.current = el;
     ref(el);
-  };
+  }, [ref]);
 
   return [setRefs, inView];
 };

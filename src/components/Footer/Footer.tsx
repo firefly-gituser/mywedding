@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useTheme, themes } from '../../contexts/ThemeContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 
 const FooterSection = styled.footer`
@@ -114,13 +114,13 @@ const ThemeButtons = styled.div`
 `;
 
 interface ThemeButtonProps {
-  isActive: boolean;
+  $isActive: boolean;
 }
 
 const ThemeButton = styled.button<ThemeButtonProps>`
-  background-color: ${props => props.isActive ? 'var(--accent-color)' : 'var(--secondary-color)'};
-  color: ${props => props.isActive ? 'var(--light-color)' : 'var(--dark-color)'};
-  border: var(--border-width) solid ${props => props.isActive ? 'var(--accent-color)' : 'var(--primary-color)'};
+  background-color: ${props => props.$isActive ? 'var(--accent-color)' : 'var(--secondary-color)'};
+  color: ${props => props.$isActive ? 'var(--light-color)' : 'var(--dark-color)'};
+  border: var(--border-width) solid ${props => props.$isActive ? 'var(--accent-color)' : 'var(--primary-color)'};
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
   cursor: pointer;
@@ -169,13 +169,13 @@ const Footer: React.FC = () => {
         <ThemeSelector>
           <p>Đổi Giao Diện:</p>
           <ThemeButtons>
-            {themes.map((theme, idx) => (
+            {themeNames.map((themeName, idx) => (
               <ThemeButton 
                 key={idx}
-                isActive={themeIndex === idx}
+                $isActive={themeIndex === idx}
                 onClick={() => changeTheme(idx)}
               >
-                {themeNames[idx]}
+                {themeName}
               </ThemeButton>
             ))}
           </ThemeButtons>

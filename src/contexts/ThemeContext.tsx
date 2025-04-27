@@ -1,15 +1,12 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect, useMemo } from 'react';
 import { Theme } from '../types/types';
-import HDS_5942 from '../assets/HDS_5942.JPG';
-import HDS_5643 from '../assets/HDS_5643.JPG';
-import HDS_6116 from '../assets/HDS_6116.JPG';
-import HDS_5521 from '../assets/HDS_5521.JPG';
-import HDS_6073 from '../assets/HDS_6073.JPG';
-import HDS_4821 from '../assets/HDS_4821.JPG';
-import HDS_5560 from '../assets/HDS_5560.JPG';
+import { useGalleryImages } from '../hooks/useGalleryImages';
 
-// Theme definitions
-export const themes: Theme[] = [
+// Define placeholder image for loading state
+const placeholderImage = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"%3E%3Crect width="200" height="200" fill="%23f0f0f0"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="20" fill="%23999"%3ELoading...%3C/text%3E%3C/svg%3E';
+
+// Create theme templates without images
+const themeTemplates = [
   {
     primary: '#d4b08c',
     secondary: '#f8f5f1',
@@ -17,7 +14,6 @@ export const themes: Theme[] = [
     text: '#555',
     dark: '#333',
     light: '#fff',
-    backgroundImage: HDS_5942,
     layoutClass: 'default-layout'
   },
   {
@@ -27,7 +23,6 @@ export const themes: Theme[] = [
     text: '#4a4a4a',
     dark: '#333',
     light: '#fff',
-    backgroundImage: HDS_5643,
     layoutClass: 'elegant-layout'
   },
   {
@@ -37,7 +32,6 @@ export const themes: Theme[] = [
     text: '#494949',
     dark: '#333',
     light: '#fff',
-    backgroundImage: HDS_6116,
     layoutClass: 'romantic-layout'
   },
   {
@@ -47,7 +41,6 @@ export const themes: Theme[] = [
     text: '#4a4a4a',
     dark: '#333',
     light: '#fff',
-    backgroundImage: HDS_5521,
     layoutClass: 'classic-layout'
   },
   {
@@ -57,7 +50,6 @@ export const themes: Theme[] = [
     text: '#4a3c32',
     dark: '#2a2118',
     light: '#fff',
-    backgroundImage: HDS_6073,
     layoutClass: 'vintage-layout'
   },
   {
@@ -67,7 +59,6 @@ export const themes: Theme[] = [
     text: '#444444',
     dark: '#1f1f1f',
     light: '#ffffff',
-    backgroundImage: HDS_4821,
     layoutClass: 'minimalist-layout'
   },
   {
@@ -77,7 +68,6 @@ export const themes: Theme[] = [
     text: '#333333',
     dark: '#00263a',
     light: '#ffffff',
-    backgroundImage: HDS_5560,
     layoutClass: 'professional-layout'
   }
 ];
@@ -86,22 +76,78 @@ interface ThemeContextType {
   currentTheme: Theme;
   changeTheme: (themeIndex: number) => void;
   themeIndex: number;
+  isLoading: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // Start with a random theme
-  const initialThemeIndex = Math.floor(Math.random() * themes.length);
+  const initialThemeIndex = Math.floor(Math.random() * themeTemplates.length);
   const [themeIndex, setThemeIndex] = useState<number>(initialThemeIndex);
-  const currentTheme = themes[themeIndex];
+  const { loading, galleryData, getImageUrl, error } = useGalleryImages();
+  const [themes, setThemes] = useState<Theme[]>([]);
+
+  useEffect(() => {
+    if (galleryData) {
+      // Once we have the gallery data, create themes with images
+      const updatedThemes = themeTemplates.map((template, index) => {
+        let imageToUse;
+
+        // Use images from gallery if available, otherwise fallback to pattern
+        if (galleryData.gallary && galleryData.gallary.length > 0) {
+          const galleryIndex = index % galleryData.gallary.length;
+          imageToUse = getImageUrl(galleryData.gallary[galleryIndex]);
+        } else {
+          imageToUse = getImageUrl(galleryData.pattern);
+        }
+
+        return {
+          ...template,
+          backgroundImage: imageToUse
+        };
+      });
+      
+      setThemes(updatedThemes);
+    } else {
+      // Create temporary themes with placeholder images
+      const tempThemes = themeTemplates.map(template => ({
+        ...template,
+        backgroundImage: placeholderImage
+      }));
+      
+      setThemes(tempThemes);
+    }
+  }, [galleryData, getImageUrl]);
 
   const changeTheme = (newThemeIndex: number) => {
     setThemeIndex(newThemeIndex);
   };
 
+  // Use useMemo to prevent recreating the theme object on every render
+  const currentTheme = useMemo(() => {
+    return themes[themeIndex] || {
+      ...themeTemplates[themeIndex],
+      backgroundImage: placeholderImage
+    };
+  }, [themeIndex, themes]);
+
+  if (error) {
+    console.error('Failed to load gallery images:', error);
+  }
+
+  // Create a memoized value for the context to prevent unnecessary re-renders
+  const contextValue = useMemo(() => {
+    return {
+      currentTheme,
+      changeTheme,
+      themeIndex,
+      isLoading: loading
+    };
+  }, [currentTheme, themeIndex, loading]);
+
   return (
-    <ThemeContext.Provider value={{ currentTheme, changeTheme, themeIndex }}>
+    <ThemeContext.Provider value={contextValue}>
       {children}
     </ThemeContext.Provider>
   );
