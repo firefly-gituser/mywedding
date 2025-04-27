@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled, { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import LoadingScreen from './components/LoadingScreen';
 
 // Components
 import Header from './components/Header/Header';
@@ -55,7 +56,7 @@ const Overlay = styled.div`
 
 // App wrapper with theme handling
 const AppWithTheme: React.FC = () => {
-  const { currentTheme } = useTheme();
+  const { currentTheme, isLoading } = useTheme();
   
   // Add floating hearts animation
   useEffect(() => {
@@ -90,6 +91,7 @@ const AppWithTheme: React.FC = () => {
   return (
     <StyledThemeProvider theme={currentTheme}>
       <GlobalStyles theme={currentTheme} />
+      <LoadingScreen />
       <Overlay />
       <FloatingHearts className="floating-hearts-container" />
       

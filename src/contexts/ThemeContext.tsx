@@ -83,7 +83,7 @@ const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // Start with a random theme
-  const initialThemeIndex = Math.floor(Math.random() * themeTemplates.length);
+  const initialThemeIndex = 2;
   const [themeIndex, setThemeIndex] = useState<number>(initialThemeIndex);
   const { loading, galleryData, getImageUrl, error } = useGalleryImages();
   const [themes, setThemes] = useState<Theme[]>([]);
