@@ -1,88 +1,46 @@
-# Wedding Invitation Website
+# Getting Started with Create React App
 
-A beautiful and romantic wedding invitation website for Tâm & Giao's special day.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Features
+## Available Scripts
 
-- Responsive design that works on all devices
-- Multiple themes that change on page reload
-- Theme selector for manual theme switching
-- Beautiful typography with elegant fonts
-- Family information section for bride and groom's families
-- Interactive timeline of wedding day schedule
-- Photo gallery showcasing the couple
-- RSVP form for guest responses
-- Countdown timer to the wedding day
-- Smooth animations and parallax effects
+In the project directory, you can run:
 
-## How to Use
+### `npm start`
 
-1. Clone or download this repository
-2. Open `index.html` in your browser to view the website locally
-3. Customize the content to match your wedding details:
-   - Update names, dates, and venue information in `index.html`
-   - Replace the photos in the `assets` folder with your own
-   - Adjust colors and styling in `styles.css` if desired
-   - Modify the countdown date in `script.js`
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## Customization
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-### Colors
+### `npm test`
 
-The color scheme can be easily changed by modifying the CSS variables in the `:root` selector in `styles.css`:
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-```css
-:root {
-    --primary-color: #d4b08c;
-    --secondary-color: #f8f5f1;
-    --text-color: #555;
-    --dark-color: #333;
-    --light-color: #fff;
-    --accent-color: #c19e67;
-}
-```
+### `npm run build`
 
-### Fonts
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The website uses the following Google Fonts:
-- Great Vibes (for names and headings)
-- Cormorant Garamond (for elegant text)
-- Montserrat (for body text)
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-You can change these by updating the Google Fonts link in the `<head>` section of `index.html` and then updating the font-family properties in `styles.css`.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Images
+### `npm run eject`
 
-Replace the images in the assets folder with your own photos. The website uses the following images:
-- Header background image (currently using HDS_5942.JPG)
-- Gallery images
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-### Themes
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-The website features multiple themes that automatically change when the page is reloaded:
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-1. **Classic Gold** - Elegant gold and cream theme
-2. **Garden Green** - Natural green and light theme
-3. **Romantic Rose** - Soft pink and rose theme
-4. **Ocean Blue** - Calming blue and white theme
-5. **Vintage Brown** - Rustic vintage-inspired theme with double borders and sepia effect
-6. **Modern Minimal** - Clean minimalist design with monochrome and gold accents
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-Users can also manually switch between themes using the theme selector at the bottom of the page.
+## Learn More
 
-## Deployment
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To make this website live:
-
-1. Purchase a domain name (optional)
-2. Sign up for web hosting
-3. Upload all files to your hosting server
-4. Point your domain to the hosting server
-
-## Technologies Used
-
-- HTML5
-- CSS3
-- JavaScript (ES6+)
-- Google Fonts
-- Font Awesome icons 
+To learn React, check out the [React documentation](https://reactjs.org/).
