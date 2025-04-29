@@ -40,7 +40,6 @@ export interface GalleryImage {
 export interface RSVPFormData {
   email: string;
   attending: string;
-  guests: number;
   message: string;
 }
 

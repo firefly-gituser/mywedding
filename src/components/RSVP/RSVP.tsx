@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -156,19 +156,31 @@ const RSVP: React.FC = () => {
   const [formData, setFormData] = useState<RSVPFormData>({
     email: '',
     attending: '',
-    guests: 0,
     message: ''
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
+  const [messagePlaceholder, setMessagePlaceholder] = useState('');
+  const [submittedAttending, setSubmittedAttending] = useState('');
+
+  // Update message placeholder based on attending selection
+  useEffect(() => {
+    if (formData.attending === 'yes') {
+      setMessagePlaceholder('Bạn có yêu cầu gì cho chuyến đi không?');
+    } else if (formData.attending === 'no') {
+      setMessagePlaceholder('Gửi lời chúc đến cô dâu và chú rể...');
+    } else {
+      setMessagePlaceholder('');
+    }
+  }, [formData.attending]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prevData => ({
       ...prevData,
-      [name]: name === 'guests' ? parseInt(value) || 0 : value
+      [name]: value
     }));
   };
 
@@ -182,6 +194,9 @@ const RSVP: React.FC = () => {
       return;
     }
     
+    // Store the attending value before resetting the form
+    setSubmittedAttending(formData.attending);
+    
     // Submit form
     setIsSubmitting(true);
     
@@ -193,7 +208,6 @@ const RSVP: React.FC = () => {
       setFormData({
         email: '',
         attending: '',
-        guests: 0,
         message: ''
       });
     }, 1500);
@@ -202,11 +216,15 @@ const RSVP: React.FC = () => {
   return (
     <RSVPSection>
       <Container>
-        <h2 ref={titleRef}>Xác Nhận Tham Dự</h2>
-        <p ref={textRef}>
-          Chúng tôi rất mong được đón tiếp quý vị trong ngày trọng đại. 
-          Vui lòng xác nhận tham dự trước ngày 01 tháng 7 năm 2025.
-        </p>
+        {!isSubmitted && (
+          <>
+            <h2 ref={titleRef}>Xác Nhận Tham Dự</h2>
+            <p ref={textRef}>
+              Chúng tôi rất mong được đón tiếp quý vị trong ngày trọng đại. 
+              Vui lòng xác nhận tham dự trước ngày 01 tháng 7 năm 2025.
+            </p>
+          </>
+        )}
         
         <div ref={formRef}>
           {!isSubmitted ? (
@@ -234,34 +252,22 @@ const RSVP: React.FC = () => {
                   required
                 >
                   <option value="" disabled>Bạn sẽ tham dự?</option>
-                  <option value="yes">Vui Lòng Xác Nhận Tham Dự</option>
-                  <option value="no">Tiếc Rằng Không Thể Tham Dự</option>
+                  <option value="yes">Vâng, dĩ nhiên rồi</option>
+                  <option value="no">Không, tiếc là tôi không thể tham dự</option>
                 </Select>
               </FormGroup>
               
-              <FormGroup>
-                <Input 
-                  type="number" 
-                  id="guests" 
-                  name="guests" 
-                  min="0" 
-                  max="5" 
-                  placeholder="Số Lượng Khách Mời" 
-                  value={formData.guests || ''}
-                  onChange={handleChange}
-                  required 
-                />
-              </FormGroup>
-              
-              <FormGroup>
-                <Textarea 
-                  id="message" 
-                  name="message" 
-                  placeholder="Lời Nhắn Hoặc Yêu Cầu Đặc Biệt"
-                  value={formData.message}
-                  onChange={handleChange}
-                />
-              </FormGroup>
+              {formData.attending && (
+                <FormGroup>
+                  <Textarea 
+                    id="message" 
+                    name="message" 
+                    placeholder={messagePlaceholder}
+                    value={formData.message}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              )}
               
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? 'Đang gửi...' : 'Gửi Xác Nhận'}
@@ -273,7 +279,11 @@ const RSVP: React.FC = () => {
                 <FontAwesomeIcon icon={faHeart} />
               </div>
               <h3>Cảm Ơn!</h3>
-              <p>Xác nhận tham dự của bạn đã được ghi nhận. Chúng tôi rất háo hức được chào đón bạn!</p>
+              <p>
+                {submittedAttending === 'yes' 
+                  ? 'Xác nhận tham dự của bạn đã được ghi nhận. Chúng tôi rất háo hức được chào đón bạn!'
+                  : 'Lời chúc đã được ghi nhận. Cảm ơn tình yêu thương đến từ bạn <3'}
+              </p>
             </SuccessMessage>
           )}
         </div>
