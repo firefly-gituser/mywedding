@@ -48,14 +48,9 @@ export const useImagePreloader = (imageUrls: string[]): UseImagePreloaderReturn 
 
       const img = new Image();
       
-      img.onload = () => {
-        checkAllLoaded();
-      };
+      img.onload = checkAllLoaded
       
-      img.onerror = () => {
-        console.warn(`Failed to load image: ${url}`);
-        checkAllLoaded(); // Cũng đánh dấu là đã hoàn tất, mặc dù có lỗi
-      };
+      img.onerror = checkAllLoaded
       
       img.src = url;
     });

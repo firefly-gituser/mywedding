@@ -110,33 +110,15 @@ const ErrorMessage = styled.p`
 // Component để áp dụng hiệu ứng cho từng hình ảnh
 const AnimatedGalleryItem: React.FC<{
   image: GalleryImage; 
-  index: number;
-  isHovered: boolean;
-  isAnyHovered: boolean;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-}> = ({ image, index, isHovered, isAnyHovered, onMouseEnter, onMouseLeave }) => {
+}> = ({ image }) => {
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
-  
-  // Tính toán opacity dựa trên trạng thái hover
-  const getOpacity = () => {
-    if (!isAnyHovered) return 1; // Không có ảnh nào được hover
-    return isHovered ? 1 : 0.5; // Ảnh đang hover sáng, còn lại mờ
-  };
-  
+
   return (
     <GalleryItem 
       ref={ref}
-      style={{
-        opacity: inView ? getOpacity() : 0,
-        transform: inView ? 'translateY(0)' : 'translateY(30px)',
-        transition: `opacity 0.8s cubic-bezier(0.5, 0, 0, 1) ${index * 100}ms, transform 0.8s cubic-bezier(0.5, 0, 0, 1) ${index * 100}ms`
-      }}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
     >
       <img src={image.src} alt={image.alt} />
     </GalleryItem>
@@ -146,8 +128,6 @@ const AnimatedGalleryItem: React.FC<{
 const Gallery: React.FC = () => {
   // State
   const [images, setImages] = useState<GalleryImage[]>([]);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  
   // Use our custom hook to get gallery images
   const { loading, error, galleryData, getImageUrl } = useGalleryImages();
   
@@ -158,15 +138,6 @@ const Gallery: React.FC = () => {
     origin: 'bottom',
     delay: 200
   });
-  
-  // Xử lý mouse enter và leave
-  const handleMouseEnter = (index: number) => {
-    setHoveredIndex(index);
-  };
-  
-  const handleMouseLeave = () => {
-    setHoveredIndex(null);
-  };
   
   // Initialize gallery images when data is available
   useEffect(() => {
@@ -206,11 +177,6 @@ const Gallery: React.FC = () => {
               <AnimatedGalleryItem 
                 key={index} 
                 image={image} 
-                index={index}
-                isHovered={hoveredIndex === index}
-                isAnyHovered={hoveredIndex !== null}
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={handleMouseLeave}
               />
             ))}
           </GalleryGrid>

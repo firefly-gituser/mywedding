@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled, { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import { GalleryProvider } from './contexts/GalleryContext';
 import LoadingScreen from './components/LoadingScreen';
 
 // Components
@@ -57,7 +58,7 @@ const Overlay = styled.div`
 // App wrapper with theme handling
 const AppWithTheme: React.FC = () => {
   const { currentTheme, isLoading } = useTheme();
-  
+
   // Add floating hearts animation
   useEffect(() => {
     const createHeart = () => {
@@ -68,11 +69,11 @@ const AppWithTheme: React.FC = () => {
       heart.style.left = `${Math.random() * 100}vw`;
       heart.style.top = '100vh';
       heart.style.animationDuration = `${Math.random() * 6 + 4}s`;
-      
+
       const heartsContainer = document.querySelector('.floating-hearts-container');
       if (heartsContainer) {
         heartsContainer.appendChild(heart);
-        
+
         // Remove heart after animation completes
         setTimeout(() => {
           if (heart && heart.parentNode === heartsContainer) {
@@ -81,20 +82,21 @@ const AppWithTheme: React.FC = () => {
         }, 10000);
       }
     };
-    
+
     // Create hearts periodically
     const interval = setInterval(createHeart, 2000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
   return (
+
     <StyledThemeProvider theme={currentTheme}>
       <GlobalStyles theme={currentTheme} />
       <LoadingScreen />
       <Overlay />
       <FloatingHearts className="floating-hearts-container" />
-      
+
       <div className={currentTheme.layoutClass}>
         <Header />
         <main>
@@ -119,9 +121,13 @@ const AppWithTheme: React.FC = () => {
 // Root App component with theme context
 const App: React.FC = () => {
   return (
-    <ThemeProvider>
-      <AppWithTheme />
-    </ThemeProvider>
+    <GalleryProvider>
+
+
+      <ThemeProvider>
+        <AppWithTheme />
+      </ThemeProvider>
+    </GalleryProvider>
   );
 };
 

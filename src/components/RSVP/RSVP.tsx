@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faExclamationTriangle, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 import { RSVPFormData } from '../../types/types';
+import { submitRSVP, checkExistingEmail, verifyCode, updateRSVP } from '../../firebase/rsvpService';
 
 const RSVPSection = styled.section`
   background-color: var(--secondary-color);
@@ -134,6 +135,112 @@ const SuccessMessage = styled.div`
   }
 `;
 
+const VerificationCode = styled.div`
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: var(--light-color);
+  border-radius: var(--border-radius);
+  border: 2px dashed var(--primary-color);
+  
+  .code {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.3rem;
+    color: var(--primary-color);
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: rgba(212, 176, 140, 0.1);
+    border-radius: var(--border-radius);
+  }
+  
+  p {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+`;
+
+const VerificationForm = styled.div`
+  max-width: 600px;
+  margin: 2rem auto 0;
+  text-align: left;
+  animation: fadeIn 1s ease;
+  padding: 1.5rem;
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  background-color: rgba(255, 255, 255, 0.8);
+`;
+
+const VerificationHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  
+  .icon {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-right: 1rem;
+  }
+`;
+
+const CodeInput = styled.input`
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: var(--border-width) solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  background-color: var(--light-color);
+  letter-spacing: 0.3rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(212, 176, 140, 0.2);
+  }
+`;
+
+const MessageBox = styled.div<{ type: 'error' | 'success' }>`
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  
+  background-color: ${props => props.type === 'error' ? 'rgba(220, 53, 69, 0.1)' : 'rgba(40, 167, 69, 0.1)'};
+  color: ${props => props.type === 'error' ? '#dc3545' : '#28a745'};
+  
+  .icon {
+    margin-right: 0.5rem;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  
+  @media (max-width: 576px) {
+    flex-direction: column;
+  }
+`;
+
+const SecondaryButton = styled(Button)`
+  background-color: var(--light-color);
+  color: var(--text-color);
+  border: var(--border-width) solid var(--border-color);
+  
+  &:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+  }
+`;
+
 const RSVP: React.FC = () => {
   const [titleRef, titleInView] = useScrollAnimation({
     delay: 200,
@@ -164,6 +271,19 @@ const RSVP: React.FC = () => {
   const [formError, setFormError] = useState('');
   const [messagePlaceholder, setMessagePlaceholder] = useState('');
   const [submittedAttending, setSubmittedAttending] = useState('');
+  const [verificationCode, setVerificationCode] = useState<string>('');
+  
+  // Trạng thái mới để kiểm tra email đã tồn tại
+  const [isEmailExisting, setIsEmailExisting] = useState(false);
+  const [verificationInput, setVerificationInput] = useState('');
+  const [verifyingCode, setVerifyingCode] = useState(false);
+  const [verificationError, setVerificationError] = useState('');
+  const [verificationSuccess, setVerificationSuccess] = useState('');
+
+  // State để kiểm soát xem người dùng đang cập nhật hay tạo mới
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isUpdateSuccessful, setIsUpdateSuccessful] = useState(false);
+  const [updatedVerificationCode, setUpdatedVerificationCode] = useState<string>('');
 
   // Update message placeholder based on attending selection
   useEffect(() => {
@@ -183,8 +303,92 @@ const RSVP: React.FC = () => {
       [name]: value
     }));
   };
+  
+  // Xử lý kiểm tra email đã tồn tại
+  const checkEmail = async (email: string) => {
+    try {
+      const result = await checkExistingEmail(email);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  };
+  
+  // Trở về form nhập email
+  const handleGoBack = () => {
+    setIsEmailExisting(false);
+    setVerificationInput('');
+    setVerificationError('');
+    setVerificationSuccess('');
+  };
+  
+  // Xử lý thay đổi input mã xác thực
+  const handleVerificationCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Chuyển đổi thành chữ in hoa và loại bỏ khoảng trắng
+    const value = e.target.value.toUpperCase().replace(/\s/g, '');
+    setVerificationInput(value);
+  };
+  
+  // Xử lý xác thực mã
+  const handleVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setVerifyingCode(true);
+    setVerificationError('');
+    setVerificationSuccess('');
+    
+    try {
+      if (verificationInput.length !== 5) {
+        setVerificationError('Mã xác thực phải có 5 ký tự');
+        setVerifyingCode(false);
+        return;
+      }
+      
+      const isValid = await verifyCode(formData.email, verificationInput);
+      
+      if (isValid) {
+        setVerificationSuccess('Mã xác thực hợp lệ. Đang cập nhật thông tin RSVP...');
+        // Đánh dấu là đang cập nhật thông tin
+        setIsUpdating(true);
+        
+        // Tự động gửi form sau khi xác thực thành công
+        try {
+          const isJoin = formData.attending === 'yes';
+          
+          // Cập nhật thông tin vào Firestore và nhận mã xác thực mới
+          const newVerificationCode = await updateRSVP(formData.email, {
+            email: formData.email,
+            isJoin: isJoin,
+            message: formData.message
+          });
+          
+          // Cập nhật state để hiển thị thông báo thành công
+          setSubmittedAttending(formData.attending);
+          setIsUpdateSuccessful(true);
+          setUpdatedVerificationCode(newVerificationCode);
+          setIsSubmitted(true);
+          setIsEmailExisting(false);
+          
+          // Reset form
+          setFormData({
+            email: '',
+            attending: '',
+            message: ''
+          });
+        } catch (error) {
+          setVerificationError('Đã xảy ra lỗi khi gửi form. Vui lòng thử lại sau.');
+          setIsUpdating(false);
+        }
+      } else {
+        setVerificationError('Mã xác thực không đúng. Vui lòng thử lại.');
+      }
+    } catch (error) {
+      setVerificationError('Đã xảy ra lỗi khi xác thực. Vui lòng thử lại sau.');
+    } finally {
+      setVerifyingCode(false);
+    }
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
     
@@ -194,23 +398,65 @@ const RSVP: React.FC = () => {
       return;
     }
     
-    // Store the attending value before resetting the form
-    setSubmittedAttending(formData.attending);
-    
-    // Submit form
     setIsSubmitting(true);
     
-    // Simulate API call with timeout
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
+    try {
+      // Nếu không phải đang cập nhật, kiểm tra xem email đã tồn tại chưa
+      if (!isUpdating) {
+        const emailResult = await checkEmail(formData.email);
+        
+        // Nếu email đã tồn tại, yêu cầu mã xác thực
+        if (emailResult.exists) {
+          setIsEmailExisting(true);
+          setIsSubmitting(false);
+          return;
+        }
+        
+        // Store the attending value before resetting the form
+        setSubmittedAttending(formData.attending);
+        
+        // Convert attending value to boolean for Firestore
+        const isJoin = formData.attending === 'yes';
+        
+        // Submit to Firestore and get the verification code
+        const code = await submitRSVP({
+          email: formData.email,
+          isJoin: isJoin,
+          message: formData.message
+        });
+        
+        // Store the verification code
+        setVerificationCode(code);
+        setIsSubmitted(true);
+      } else {
+        // Nếu đang cập nhật, sử dụng hàm updateRSVP
+        // Convert attending value to boolean for Firestore
+        const isJoin = formData.attending === 'yes';
+        
+        // Cập nhật thông tin vào Firestore và nhận mã xác thực mới
+        const newVerificationCode = await updateRSVP(formData.email, {
+          email: formData.email,
+          isJoin: isJoin,
+          message: formData.message
+        });
+        
+        setSubmittedAttending(formData.attending);
+        setIsUpdateSuccessful(true);
+        setUpdatedVerificationCode(newVerificationCode);
+        setIsSubmitted(true);
+      }
+      
       // Reset form
       setFormData({
         email: '',
         attending: '',
         message: ''
       });
-    }, 1500);
+    } catch (error) {
+      setFormError('Đã xảy ra lỗi khi gửi form. Vui lòng thử lại sau.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -218,7 +464,7 @@ const RSVP: React.FC = () => {
       <Container>
         {!isSubmitted && (
           <>
-            <h2 ref={titleRef}>Xác Nhận Tham Dự</h2>
+            <h2 ref={titleRef}>{isUpdating ? 'Cập Nhật Thông Tin Tham Dự' : 'Xác Nhận Tham Dự'}</h2>
             <p ref={textRef}>
               Chúng tôi rất mong được đón tiếp quý vị trong ngày trọng đại. 
               Vui lòng xác nhận tham dự trước ngày 01 tháng 7 năm 2025.
@@ -227,7 +473,57 @@ const RSVP: React.FC = () => {
         )}
         
         <div ref={formRef}>
-          {!isSubmitted ? (
+          {isEmailExisting ? (
+            <VerificationForm>
+              <VerificationHeader>
+                <FontAwesomeIcon icon={faExclamationTriangle} className="icon" />
+                <div>
+                  <h3>Email đã được đăng ký</h3>
+                  <p>Email {formData.email} đã được đăng ký trước đó. Vui lòng nhập mã xác thực để cập nhật thông tin.
+                    <b/>Trường hợp bạn đã quên mã xác thực, liên hệ cô dâu hoặc chú rể nhen...</p>
+                </div>
+              </VerificationHeader>
+              
+              {verificationError && (
+                <MessageBox type="error">
+                  <FontAwesomeIcon icon={faTimesCircle} className="icon" />
+                  {verificationError}
+                </MessageBox>
+              )}
+              
+              {verificationSuccess && (
+                <MessageBox type="success">
+                  <FontAwesomeIcon icon={faCheckCircle} className="icon" />
+                  {verificationSuccess}
+                </MessageBox>
+              )}
+              
+              <form onSubmit={handleVerifyCode}>
+                <FormGroup>
+                  <label htmlFor="verificationCode">Mã xác thực (5 ký tự):</label>
+                  <CodeInput
+                    type="text"
+                    id="verificationCode"
+                    value={verificationInput}
+                    onChange={handleVerificationCodeChange}
+                    placeholder="XXXXX"
+                    maxLength={5}
+                    required
+                  />
+                </FormGroup>
+                
+                <ButtonGroup>
+                  <SecondaryButton type="button" onClick={handleGoBack}>
+                    Quay Lại
+                  </SecondaryButton>
+                  
+                  <Button type="submit" disabled={verifyingCode || verificationSuccess !== ''}>
+                    {verifyingCode ? 'Đang xác thực...' : 'Xác Thực'}
+                  </Button>
+                </ButtonGroup>
+              </form>
+            </VerificationForm>
+          ) : !isSubmitted ? (
             <Form onSubmit={handleSubmit}>
               {formError && <p style={{ color: 'red' }}>{formError}</p>}
               
@@ -240,6 +536,7 @@ const RSVP: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required 
+                  disabled={isUpdating} // Disable email field khi đang cập nhật
                 />
               </FormGroup>
               
@@ -270,7 +567,7 @@ const RSVP: React.FC = () => {
               )}
               
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Đang gửi...' : 'Gửi Xác Nhận'}
+                {isSubmitting ? 'Đang gửi...' : isUpdating ? 'Cập Nhật Xác Nhận' : 'Gửi Xác Nhận'}
               </Button>
             </Form>
           ) : (
@@ -279,11 +576,35 @@ const RSVP: React.FC = () => {
                 <FontAwesomeIcon icon={faHeart} />
               </div>
               <h3>Cảm Ơn!</h3>
-              <p>
-                {submittedAttending === 'yes' 
-                  ? 'Xác nhận tham dự của bạn đã được ghi nhận. Chúng tôi rất háo hức được chào đón bạn!'
-                  : 'Lời chúc đã được ghi nhận. Cảm ơn tình yêu thương đến từ bạn <3'}
-              </p>
+              {isUpdateSuccessful ? (
+                <>
+                  <p>
+                    {submittedAttending === 'yes' 
+                        ? 'Cập nhật tham dự của bạn đã được ghi nhận. Chúng tôi rất háo hức được chào đón bạn!'
+                        : 'Lời chúc đã được ghi nhận. Cảm ơn tình yêu thương đến từ bạn <3'}
+                    </p>
+                  
+                  <VerificationCode>
+                    <h4>Mã Xác Nhận Mới Của Bạn</h4>
+                    <div className="code">{updatedVerificationCode}</div>
+                    <p>Đây là mã xác thực mới của bạn. Vui lòng lưu lại để sử dụng cho lần cập nhật tiếp theo.</p>
+                  </VerificationCode>
+                </>
+              ) : (
+                <>
+                  <p>
+                    {submittedAttending === 'yes' 
+                      ? 'Xác nhận tham dự của bạn đã được ghi nhận. Chúng tôi rất háo hức được chào đón bạn!'
+                      : 'Lời chúc đã được ghi nhận. Cảm ơn tình yêu thương đến từ bạn <3'}
+                  </p>
+                  
+                  <VerificationCode>
+                    <h4>Mã Xác Nhận Của Bạn</h4>
+                    <div className="code">{verificationCode}</div>
+                    <p>Vui lòng lưu mã này để sử dụng trong trường hợp bạn cần cập nhật thông tin RSVP.</p>
+                  </VerificationCode>
+                </>
+              )}
             </SuccessMessage>
           )}
         </div>

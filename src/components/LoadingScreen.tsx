@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useTheme } from '../contexts/ThemeContext';
 import useImagePreloader from '../hooks/useImagePreloader';
-import { useGalleryImages } from '../hooks/useGalleryImages';
+import { GalleryContext } from '../contexts/GalleryContext';
 
 const fadeOut = keyframes`
   from {
@@ -101,9 +101,12 @@ const ProgressFill = styled.div<{ $progress: number }>`
 
 const LoadingScreen: React.FC = () => {
   const { isLoading } = useTheme();
-  const { galleryData, getImageUrl } = useGalleryImages();
   const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(true);
+  
+  const galleryContext = useContext(GalleryContext);
+  const galleryData = galleryContext?.galleryData;
+  const getImageUrl = galleryContext?.getImageUrl || ((img: string) => '');
   
   // Tạo danh sách tất cả các URL hình ảnh cần tải
   const imageUrls = useMemo(() => {

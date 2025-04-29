@@ -130,11 +130,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       mobileBackgroundImage: placeholderImage
     };
   }, [themeIndex, themes]);
-
-  if (error) {
-    console.error('Failed to load gallery images:', error);
-  }
-
+  
   // Create a memoized value for the context to prevent unnecessary re-renders
   const contextValue = useMemo(() => {
     return {
