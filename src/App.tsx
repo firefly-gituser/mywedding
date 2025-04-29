@@ -4,6 +4,8 @@ import GlobalStyles from './styles/GlobalStyles';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { GalleryProvider } from './contexts/GalleryContext';
 import LoadingScreen from './components/LoadingScreen';
+import { Routes, Route } from 'react-router-dom';
+import RSVPList from './components/RSVPList/RSVPList';
 
 // Components
 import Header from './components/Header/Header';
@@ -55,10 +57,10 @@ const Overlay = styled.div`
   pointer-events: none;
 `;
 
-// App wrapper with theme handling
-const AppWithTheme: React.FC = () => {
+// Main wedding page component
+const WeddingPage: React.FC = () => {
   const { currentTheme, isLoading } = useTheme();
-
+  
   // Add floating hearts animation
   useEffect(() => {
     const createHeart = () => {
@@ -69,11 +71,11 @@ const AppWithTheme: React.FC = () => {
       heart.style.left = `${Math.random() * 100}vw`;
       heart.style.top = '100vh';
       heart.style.animationDuration = `${Math.random() * 6 + 4}s`;
-
+      
       const heartsContainer = document.querySelector('.floating-hearts-container');
       if (heartsContainer) {
         heartsContainer.appendChild(heart);
-
+        
         // Remove heart after animation completes
         setTimeout(() => {
           if (heart && heart.parentNode === heartsContainer) {
@@ -82,21 +84,19 @@ const AppWithTheme: React.FC = () => {
         }, 10000);
       }
     };
-
+    
     // Create hearts periodically
     const interval = setInterval(createHeart, 2000);
-
+    
     return () => clearInterval(interval);
   }, []);
 
   return (
-
-    <StyledThemeProvider theme={currentTheme}>
-      <GlobalStyles theme={currentTheme} />
+    <>
       <LoadingScreen />
       <Overlay />
       <FloatingHearts className="floating-hearts-container" />
-
+      
       <div className={currentTheme.layoutClass}>
         <Header />
         <main>
@@ -114,6 +114,21 @@ const AppWithTheme: React.FC = () => {
         </main>
         <Footer />
       </div>
+    </>
+  );
+};
+
+// App wrapper with theme handling
+const AppWithTheme: React.FC = () => {
+  const { currentTheme } = useTheme();
+
+  return (
+    <StyledThemeProvider theme={currentTheme}>
+      <GlobalStyles theme={currentTheme} />
+      <Routes>
+        <Route path="/" element={<WeddingPage />} />
+        <Route path="/list" element={<RSVPList />} />
+      </Routes>
     </StyledThemeProvider>
   );
 };
@@ -122,8 +137,6 @@ const AppWithTheme: React.FC = () => {
 const App: React.FC = () => {
   return (
     <GalleryProvider>
-
-
       <ThemeProvider>
         <AppWithTheme />
       </ThemeProvider>
