@@ -101,7 +101,7 @@ const Details: React.FC = () => {
           <h3>Thời Gian</h3>
           <p>11:00 - 13:00</p>
           <p>Chủ Nhật, ngày 13 tháng 7, 2025</p>
-          <p>Nhằm ngày 9 tháng 6, Ất Tỵ</p>
+          <p>Nhằm ngày 19 tháng 6, Ất Tỵ</p>
         </DetailCard>
         
         <DetailCard ref={locationRef}>
@@ -120,7 +120,6 @@ const Details: React.FC = () => {
           </IconWrapper>
           <h3>Phương tiện di chuyển</h3>
           <p>Xe 7 hoặc 16 chỗ</p>
-          <p>Tuỳ thuộc số lượng thành viên tham gia</p>
         </DetailCard>
       </Container>
     </DetailsSection>

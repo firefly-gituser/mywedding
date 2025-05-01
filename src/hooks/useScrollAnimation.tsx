@@ -52,7 +52,7 @@ export const useScrollAnimation = (
     
     element.style.opacity = '0';
     element.style.transform = `translate(${translateX}, ${translateY})`;
-    element.style.transition = `opacity 0.8s ${easing} ${delay}ms, transform 0.8s ${easing} ${delay}ms`;
+    element.style.transition = `opacity 0.5s ${easing} ${delay}ms, transform 0.8s ${easing} ${delay}ms`;
     
     if (inView) {
       setTimeout(() => {
