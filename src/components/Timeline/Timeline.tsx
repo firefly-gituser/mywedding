@@ -199,7 +199,7 @@ const Timeline: React.FC = () => {
         <h2 ref={headerRef}>Lịch Trình Chuyến Đi</h2>
         <TimelineContainer>
           <TimelineEvent 
-            time="6:30 Sáng" 
+            time="6:50" 
             event="Chuẩn bị tại LAB 6 công ty TMA" 
             delay={250}
           />
@@ -209,12 +209,12 @@ const Timeline: React.FC = () => {
             delay={500}
           />
           <TimelineEvent 
-            time="11:00 Sáng" 
+            time="11:00 Trưa" 
             event="Đến Nhà Gái và bắt đầu nhập tiệc." 
             delay={750}
           />
           <TimelineEvent 
-            time="13:00 Chiều" 
+            time="13:30 Chiều" 
             event="Kết thúc và trở về công ty." 
             delay={1000}
           />
