@@ -111,7 +111,7 @@ const Details: React.FC = () => {
           <h3>Địa Điểm</h3>
           <p>Tư Gia Nhà Gái</p>
           <p>Ấp Trường Thuận, Xã Trường Long</p>
-          <p>Thị trấn Phong Điền, Cần Thơ</p>
+          <p>Phong Điền, Cần Thơ</p>
         </DetailCard>
         
         <DetailCard ref={receptionRef}>

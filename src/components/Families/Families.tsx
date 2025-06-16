@@ -238,7 +238,7 @@ const Families: React.FC = () => {
               <FamilyAddress>
                 <h4>Địa Chỉ</h4>
                 <p>Ấp Trường Thuận, Xã Trường Long</p>
-                <p>Thị trấn Phong Điền, Cần Thơ</p>
+                <p>Phong Điền, Cần Thơ</p>
               </FamilyAddress>
             </FamilyContent>
           </GroomFamily>
