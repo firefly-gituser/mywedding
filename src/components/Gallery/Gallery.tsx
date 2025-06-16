@@ -93,6 +93,19 @@ const GalleryItem = styled.div`
   }
 `;
 
+// Tạo styled component mới cho hình ảnh có vị trí đặc biệt
+const OffsetImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  object-position: center 15%;  /* Điều chỉnh vị trí ảnh xuống 15% */
+  
+  ${GalleryItem}:hover & {
+    transform: scale(1.1);
+  }
+`;
+
 const LoadingMessage = styled.p`
   color: var(--text-color);
   font-style: italic;
@@ -109,18 +122,25 @@ const ErrorMessage = styled.p`
 
 // Component để áp dụng hiệu ứng cho từng hình ảnh
 const AnimatedGalleryItem: React.FC<{
-  image: GalleryImage; 
-}> = ({ image }) => {
+  image: GalleryImage;
+  index: number;
+}> = ({ image, index }) => {
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
 
+  // Kiểm tra xem phần tử có thuộc vào các vị trí đặc biệt không
+  const specialPositions = [0, 2, 5];
+  const isSpecialPosition = specialPositions.includes(index);
+
   return (
-    <GalleryItem 
-      ref={ref}
-    >
-      <img src={image.src} alt={image.alt} />
+    <GalleryItem ref={ref}>
+      {isSpecialPosition ? (
+        <OffsetImage src={image.src} alt={image.alt} />
+      ) : (
+        <img src={image.src} alt={image.alt} />
+      )}
     </GalleryItem>
   );
 };
@@ -176,7 +196,8 @@ const Gallery: React.FC = () => {
             {images.map((image, index) => (
               <AnimatedGalleryItem 
                 key={index} 
-                image={image} 
+                image={image}
+                index={index}
               />
             ))}
           </GalleryGrid>
