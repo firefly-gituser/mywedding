@@ -248,7 +248,13 @@ const EmptyCell = styled.div`
 
 const Invitation: React.FC = () => {
   const [containerRef, inView] = useScrollAnimation({
-    delay: 300,
+    delay: 250,
+    distance: '50px',
+    origin: 'bottom'
+  });
+
+  const [containerRef1, inView1] = useScrollAnimation({
+    delay: 350,
     distance: '50px',
     origin: 'bottom'
   });
@@ -275,7 +281,8 @@ const Invitation: React.FC = () => {
           <And>&</And>
           <Groom>Lê Cẩm Giao</Groom>
         </Names>
-        
+      </Container>
+      <Container ref={containerRef1}>
         {/* Hiển thị lịch với ngày 13/7/2025 được khoanh trái tim */}
         <Calendar>
           <CalendarHeader>Tháng 7, 2025</CalendarHeader>

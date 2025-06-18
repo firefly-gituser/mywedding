@@ -186,19 +186,19 @@ const FamilyAddress = styled.div`
 
 const Families: React.FC = () => {
   const [headingRef, inView] = useScrollAnimation({
-    delay: 200,
+    delay: 150,
     distance: '30px',
     origin: 'bottom'
   });
   
   const [brideRef, brideInView] = useScrollAnimation({
-    delay: 300,
+    delay: 250,
     distance: '50px',
     origin: 'left'
   });
   
   const [groomRef, groomInView] = useScrollAnimation({
-    delay: 300,
+    delay: 250,
     distance: '50px',
     origin: 'right'
   });
@@ -214,7 +214,7 @@ const Families: React.FC = () => {
             <FamilyContent>
               <FamilyMember>
                 <h4>Cha</h4>
-                <p>Ông Thạch Ngọc Truyền</p>
+                <p>Ông Thạch Văn Đạt</p>
               </FamilyMember>
               <FamilyMember>
                 <h4>Mẹ</h4>
@@ -222,8 +222,7 @@ const Families: React.FC = () => {
               </FamilyMember>
               <FamilyAddress>
                 <h4>Địa Chỉ</h4>
-                <p>Ấp Đông Phú I, Xã Vĩnh Thành</p>
-                <p>Huyện Châu Thành, An Giang</p>
+                <p>Ấp Đông Phú I, Xã Vĩnh Thành, Châu Thành, An Giang</p>
               </FamilyAddress>
             </FamilyContent>
           </BrideFamily>
@@ -237,8 +236,7 @@ const Families: React.FC = () => {
               </FamilyMember>
               <FamilyAddress>
                 <h4>Địa Chỉ</h4>
-                <p>Ấp Trường Thuận, Xã Trường Long</p>
-                <p>Phong Điền, Cần Thơ</p>
+                <p>Ấp Trường Thuận, Xã Trường Long, Phong Điền, Cần Thơ</p>
               </FamilyAddress>
             </FamilyContent>
           </GroomFamily>

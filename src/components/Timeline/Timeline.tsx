@@ -188,7 +188,7 @@ const TimelineEvent: React.FC<TimelineEventProps> = ({ time, event, delay }) => 
 
 const Timeline: React.FC = () => {
   const [headerRef, headerInView] = useScrollAnimation({
-    delay: 200,
+    delay: 150,
     distance: '30px',
     origin: 'bottom'
   });

@@ -106,6 +106,16 @@ const OffsetImage = styled.img`
   }
 `;
 
+// New styled component for items that need full height on mobile
+const MobileFullHeightItem = styled(GalleryItem)`
+  @media (max-width: 768px) {
+    height: 450px; /* Increased height for mobile view */
+    grid-row: span 2; /* Make the item span two rows in the grid */
+  }
+`;
+
+// Regular images use the default styling in GalleryItem
+
 const LoadingMessage = styled.p`
   color: var(--text-color);
   font-style: italic;
@@ -130,18 +140,28 @@ const AnimatedGalleryItem: React.FC<{
     triggerOnce: true,
   });
 
-  // Kiểm tra xem phần tử có thuộc vào các vị trí đặc biệt không
-  const specialPositions = [0, 2, 5];
-  const isSpecialPosition = specialPositions.includes(index);
+  // Kiểm tra xem phần tử có thuộc vào các vị trí đặc biệt không (offset)
+  const specialOffsetPositions = [0, 2, 5];
+  const isSpecialOffsetPosition = specialOffsetPositions.includes(index);
+  
+  // Kiểm tra xem phần tử có cần hiển thị full height trên mobile hay không
+  const mobileFullHeightPositions = [0, 2, 4];
+  const isMobileFullHeightPosition = mobileFullHeightPositions.includes(index);
+
+    // Determine if we need to use special offset image positioning
+  const useOffsetImage = isSpecialOffsetPosition;
+
+  // Choose appropriate container based on mobile full-height requirement
+  const ItemComponent = isMobileFullHeightPosition ? MobileFullHeightItem : GalleryItem;
 
   return (
-    <GalleryItem ref={ref}>
-      {isSpecialPosition ? (
+    <ItemComponent ref={ref}>
+      {useOffsetImage ? (
         <OffsetImage src={image.src} alt={image.alt} />
       ) : (
         <img src={image.src} alt={image.alt} />
       )}
-    </GalleryItem>
+    </ItemComponent>
   );
 };
 

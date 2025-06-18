@@ -143,7 +143,7 @@ const ThemeButton = styled.button<ThemeButtonProps>`
 const Footer: React.FC = () => {
   const { currentTheme, changeTheme, themeIndex } = useTheme();
   const [containerRef, inView] = useScrollAnimation({
-    delay: 200,
+    delay: 150,
     distance: '30px',
     origin: 'bottom'
   });
@@ -165,21 +165,6 @@ const Footer: React.FC = () => {
         <Hashtag>#TâmVàGiaoKếtDuyên</Hashtag>
         <p>Trân trọng và biết ơn,</p>
         <CoupleNames>Tâm & Giao</CoupleNames>
-        
-        <ThemeSelector>
-          <p>Đổi Giao Diện:</p>
-          <ThemeButtons>
-            {themeNames.map((themeName, idx) => (
-              <ThemeButton 
-                key={idx}
-                $isActive={themeIndex === idx}
-                onClick={() => changeTheme(idx)}
-              >
-                {themeName}
-              </ThemeButton>
-            ))}
-          </ThemeButtons>
-        </ThemeSelector>
       </Container>
     </FooterSection>
   );

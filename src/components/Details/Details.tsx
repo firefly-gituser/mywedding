@@ -74,19 +74,19 @@ const IconWrapper = styled.div`
 
 const Details: React.FC = () => {
   const [timeRef, timeInView] = useScrollAnimation({
-    delay: 200,
+    delay: 150,
     distance: '40px',
     origin: 'bottom'
   });
   
   const [locationRef, locationInView] = useScrollAnimation({
-    delay: 400,
+    delay: 350,
     distance: '40px',
     origin: 'bottom'
   });
   
   const [receptionRef, receptionInView] = useScrollAnimation({
-    delay: 600,
+    delay: 550,
     distance: '40px',
     origin: 'bottom'
   });
@@ -110,8 +110,7 @@ const Details: React.FC = () => {
           </IconWrapper>
           <h3>Địa Điểm</h3>
           <p>Tư Gia Nhà Gái</p>
-          <p>Ấp Trường Thuận, Xã Trường Long</p>
-          <p>Phong Điền, Cần Thơ</p>
+          <p>Ấp Trường Thuận, Xã Trường Long, Phong Điền, Cần Thơ</p>
         </DetailCard>
         
         <DetailCard ref={receptionRef}>
@@ -119,7 +118,7 @@ const Details: React.FC = () => {
             <FontAwesomeIcon icon={faCar} />
           </IconWrapper>
           <h3>Phương tiện di chuyển</h3>
-          <p>Xe 7 hoặc 16 chỗ</p>
+          <p>Xe 16 chỗ</p>
         </DetailCard>
       </Container>
     </DetailsSection>

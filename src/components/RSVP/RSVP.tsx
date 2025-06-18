@@ -243,19 +243,19 @@ const SecondaryButton = styled(Button)`
 
 const RSVP: React.FC = () => {
   const [titleRef, titleInView] = useScrollAnimation({
-    delay: 200,
+    delay: 150,
     distance: '30px',
     origin: 'bottom'
   });
   
   const [textRef, textInView] = useScrollAnimation({
-    delay: 300,
+    delay: 250,
     distance: '30px',
     origin: 'bottom'
   });
   
   const [formRef, formInView] = useScrollAnimation({
-    delay: 400,
+    delay: 350,
     distance: '30px',
     origin: 'bottom'
   });
