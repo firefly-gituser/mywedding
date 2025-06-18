@@ -106,6 +106,19 @@ const OffsetImage = styled.img`
   }
 `;
 
+// Styled component for image at index 4 with 25% vertical offset
+const BottomOffsetImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  object-position: center 0%;  /* Translate the image down by 25% */
+  
+  ${GalleryItem}:hover & {
+    transform: scale(1.1);
+  }
+`;
+
 // New styled component for items that need full height on mobile
 const MobileFullHeightItem = styled(GalleryItem)`
   @media (max-width: 768px) {
@@ -147,16 +160,18 @@ const AnimatedGalleryItem: React.FC<{
   // Kiểm tra xem phần tử có cần hiển thị full height trên mobile hay không
   const mobileFullHeightPositions = [0, 2, 4];
   const isMobileFullHeightPosition = mobileFullHeightPositions.includes(index);
-
-    // Determine if we need to use special offset image positioning
-  const useOffsetImage = isSpecialOffsetPosition;
+  
+  // Check if this is image at index 4 that needs 25% bottom offset
+  const isImage4 = index === 4;
 
   // Choose appropriate container based on mobile full-height requirement
   const ItemComponent = isMobileFullHeightPosition ? MobileFullHeightItem : GalleryItem;
 
   return (
     <ItemComponent ref={ref}>
-      {useOffsetImage ? (
+      {isImage4 ? (
+        <BottomOffsetImage src={image.src} alt={image.alt} />
+      ) : isSpecialOffsetPosition ? (
         <OffsetImage src={image.src} alt={image.alt} />
       ) : (
         <img src={image.src} alt={image.alt} />

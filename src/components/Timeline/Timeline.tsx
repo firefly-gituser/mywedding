@@ -201,22 +201,22 @@ const Timeline: React.FC = () => {
           <TimelineEvent 
             time="6:50 Sáng" 
             event="Chuẩn bị tại LAB 6 công ty TMA" 
-            delay={250}
+            delay={150}
           />
           <TimelineEvent 
             time="7:00 Sáng" 
             event="Bắt đầu chuyến đi." 
-            delay={500}
+            delay={350}
           />
           <TimelineEvent 
             time="11:00 Trưa" 
             event="Đến Nhà Gái và bắt đầu nhập tiệc." 
-            delay={750}
+            delay={550}
           />
           <TimelineEvent 
             time="13:30 Chiều" 
-            event="Kết thúc và trở về công ty." 
-            delay={1000}
+            event="Kết thúc chuyến đi và trở về công ty." 
+            delay={750}
           />
         </TimelineContainer>
       </Container>

@@ -466,8 +466,8 @@ const RSVP: React.FC = () => {
           <>
             <h2 ref={titleRef}>{isUpdating ? 'Cập Nhật Thông Tin Tham Dự' : 'Xác Nhận Tham Dự'}</h2>
             <p ref={textRef}>
-              Chúng tôi rất mong được đón tiếp quý vị trong ngày trọng đại. 
-              Vui lòng xác nhận tham dự trước ngày 01 tháng 7 năm 2025.
+              Chúng tôi rất mong được đón tiếp quý vị trong ngày trọng đại này. Để chuẩn bị chu đáo cho chuyến đi và phương tiện di chuyển,
+              vui lòng xác nhận tham dự bằng cách điền vào form bên dưới. Nếu bạn đã đăng ký trước đó, vui lòng nhập mã xác thực để cập nhật thông tin. 
             </p>
           </>
         )}

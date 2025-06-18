@@ -99,7 +99,7 @@ const Details: React.FC = () => {
             <FontAwesomeIcon icon={faCalendarAlt} />
           </IconWrapper>
           <h3>Thời Gian</h3>
-          <p>11:00 - 13:00</p>
+          <p>11:00 - 13:30</p>
           <p>Chủ Nhật, ngày 13 tháng 7, 2025</p>
           <p>Nhằm ngày 19 tháng 6, Ất Tỵ</p>
         </DetailCard>
