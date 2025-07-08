@@ -543,6 +543,10 @@ const RSVP: React.FC = () => {
   return (
     <RSVPSection>
       <Container>
+        <h2 ref={titleRef}>Thank you!</h2>
+        <p ref={textRef}>
+          Thời gian đăng ký tham dự đã kết thúc. Cảm ơn bạn đã quan tâm đến sự kiện của chúng tôi!
+        </p>
         {/* {!isSubmitted && (
           <>
             <h2 ref={titleRef}>{isUpdating ? 'Cập Nhật Thông Tin Tham Dự' : 'Xác Nhận Tham Dự'}</h2>
@@ -690,7 +694,7 @@ const RSVP: React.FC = () => {
           )}
         </div> */}
 
-        {/* <MapSection> */}
+        <MapSection>
           <MapTitle>Địa Điểm Tổ Chức</MapTitle>
           <CoordinateLink
             href="https://www.google.com/maps?q=9.9844,105.6284"
@@ -710,7 +714,7 @@ const RSVP: React.FC = () => {
           </MapContainer>
           <LocationInfo>
           </LocationInfo>
-        {/* </MapSection> */}
+        </MapSection>
       </Container>
     </RSVPSection>
   );
