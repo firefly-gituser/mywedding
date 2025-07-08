@@ -543,7 +543,7 @@ const RSVP: React.FC = () => {
   return (
     <RSVPSection>
       <Container>
-        {!isSubmitted && (
+        {/* {!isSubmitted && (
           <>
             <h2 ref={titleRef}>{isUpdating ? 'Cập Nhật Thông Tin Tham Dự' : 'Xác Nhận Tham Dự'}</h2>
             <p ref={textRef}>
@@ -551,9 +551,9 @@ const RSVP: React.FC = () => {
               vui lòng xác nhận tham dự bằng cách điền vào form bên dưới đến hết ngày <strong>05/7/2025</strong>. Nếu bạn đã đăng ký trước đó, vui lòng nhập mã xác thực để cập nhật thông tin.
             </p>
           </>
-        )}
+        )} */}
 
-        <div ref={formRef}>
+        {/* <div ref={formRef}>
           {isEmailExisting ? (
             <VerificationForm>
               <VerificationHeader>
@@ -688,9 +688,9 @@ const RSVP: React.FC = () => {
               )}
             </SuccessMessage>
           )}
-        </div>
+        </div> */}
 
-        <MapSection>
+        {/* <MapSection> */}
           <MapTitle>Địa Điểm Tổ Chức</MapTitle>
           <CoordinateLink
             href="https://www.google.com/maps?q=9.9844,105.6284"
@@ -710,7 +710,7 @@ const RSVP: React.FC = () => {
           </MapContainer>
           <LocationInfo>
           </LocationInfo>
-        </MapSection>
+        {/* </MapSection> */}
       </Container>
     </RSVPSection>
   );
