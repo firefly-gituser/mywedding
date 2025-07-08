@@ -543,11 +543,7 @@ const RSVP: React.FC = () => {
   return (
     <RSVPSection>
       <Container>
-        <h2 ref={titleRef}>Thank you!</h2>
-        <p ref={textRef}>
-          Thời gian đăng ký tham dự đã kết thúc. Cảm ơn bạn đã quan tâm đến sự kiện của chúng tôi!
-        </p>
-        {/* {!isSubmitted && (
+        {!isSubmitted && (
           <>
             <h2 ref={titleRef}>{isUpdating ? 'Cập Nhật Thông Tin Tham Dự' : 'Xác Nhận Tham Dự'}</h2>
             <p ref={textRef}>
@@ -555,9 +551,9 @@ const RSVP: React.FC = () => {
               vui lòng xác nhận tham dự bằng cách điền vào form bên dưới đến hết ngày <strong>05/7/2025</strong>. Nếu bạn đã đăng ký trước đó, vui lòng nhập mã xác thực để cập nhật thông tin.
             </p>
           </>
-        )} */}
+        )}
 
-        {/* <div ref={formRef}>
+        <div ref={formRef}>
           {isEmailExisting ? (
             <VerificationForm>
               <VerificationHeader>
@@ -692,7 +688,7 @@ const RSVP: React.FC = () => {
               )}
             </SuccessMessage>
           )}
-        </div> */}
+        </div>
 
         <MapSection>
           <MapTitle>Địa Điểm Tổ Chức</MapTitle>
